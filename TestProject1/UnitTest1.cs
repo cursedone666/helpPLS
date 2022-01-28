@@ -23,14 +23,14 @@ namespace TestProject1
 
         [Fact]
         public void UploadPictureToSavepice()
-        {
+        {          
             
-            IWebDriver driver = new ChromeDriver();
-            driver.Navigate().GoToUrl("https://savepice.ru");
-            Thread.Sleep(3000);
             RestClient client = new RestClient("https://savepice.ru");
+
             var reqToUpload = new RestRequest(Method.POST);
+
             reqToUpload.AddFile("", "/testPIC/igosha.jpg");
+
             IRestResponse response = client.Execute(reqToUpload);
 
             Assert.Equal("OK", response.StatusCode.ToString());
@@ -43,34 +43,31 @@ namespace TestProject1
             {
                 {"Content-type","application/json" }
 
-
-
             };
+
             var body = new Dictionary<string, string>
             {
                 {"email","sindrian02@gmail.com" },
                 { "password","192002ilya"}
-
             };
 
             IWebDriver driver = new ChromeDriver();
 
-
-            //CAUTH
             var response = ApiRequest.SendAPIRequest(body, headers, "https://www.coursera.org/login?", Method.POST);
+
             var cookie = ApiRequest.ExtractCookie(response, "CSRF3-Token");
+
             var cookie2 = ApiRequest.ExtractCookie(response, "__204u");
             
-
-
             driver.Navigate().GoToUrl("https://www.coursera.org/");
 
             driver.Manage().Cookies.AddCookie(cookie);
+
             driver.Manage().Cookies.AddCookie(cookie2);
                    
             driver.Navigate().GoToUrl("https://www.coursera.org/");
 
-            
+            //send cookie
             var header2 = new Dictionary<string, string>
             {
                 {"CSRF3-Token","1644157800.FABNLqqrXJZp7w6u" },
@@ -80,22 +77,7 @@ namespace TestProject1
             var request2 = ApiRequest.SendAPIRequest(body, header2, "https://www.coursera.org/login?", Method.POST);
 
             Assert.Equal("OK", request2.StatusCode.ToString());
-          
-            
-            
-            
-            
 
-            //var body2 = new Dictionary<IRestResponse, string>
-            //{
-            //    {response, "CSRF3-Token" },
-            //    {response, "__204u" }
-            //};
-
-            //var response2 = ApiRequest.SendAPIRequest(body2, headers, "https://www.coursera.org/login?", Method.POST);
-
-           
-            
         }
         
     }

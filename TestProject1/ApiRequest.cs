@@ -36,10 +36,12 @@ namespace TestProject1
             else
             {
                 request.AddJsonBody(body);
+
                 request.RequestFormat = DataFormat.Json;
             }
 
             IRestResponse response = client.Execute(request);
+
             return response;
         }
 
@@ -69,9 +71,12 @@ namespace TestProject1
         public static void DownloadPicture(string url)
         {
             RestClient client = new RestClient(url);
+
             var pictureResponse = new RestRequest(Method.GET);
+
             byte[] result = client.DownloadData(pictureResponse);
-            File.WriteAllBytes(Path.Combine("/testPIC", "test1.jpg"), result); //downloads to D drive
+            //downloads to drive where's Studio installed
+            File.WriteAllBytes(Path.Combine("/testPIC", "test1.jpg"), result); 
         }
 
        

@@ -7,13 +7,15 @@ using RestSharp;
 
 namespace TestProject1
 {
-    public class ResponseHandler
+    public class Handler
     {
-        public string Handler(string codeStatus)
+        static string HandleResponse(string url, Method type)
         {
-            //RestClient client = new RestClient(url);
-            //var request = new RestRequest(Method.GET);
-            //IRestResponse response = client.Execute(request);
+            RestClient client = new RestClient(url);
+            RestRequest request = new RestRequest(type);
+            IRestResponse response = client.Execute(request);
+            string resp = response.StatusCode.ToString();
+
             var handlr = new Dictionary<string, string>
             {
                 //{"",""}
@@ -46,13 +48,12 @@ namespace TestProject1
                 {"Service Unavailable","503"},
                 {"Gateway Timeout","504"},
                 {"HTTP Version Not Supported","505" },
-                { "Network Authentication Required","511"}         
+                { "Network Authentication Required","511"}
 
             };
-           
-            foreach (var status in handlr)
+            foreach(var status in handlr)
             {
-                if(codeStatus == status.Key)
+                if (resp.Equals(handlr))
                 {
                     return status.Value;
                 }
