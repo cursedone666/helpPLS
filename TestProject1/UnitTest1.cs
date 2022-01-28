@@ -23,14 +23,13 @@ namespace TestProject1
 
         [Fact]
         public void UploadPictureToSavepice()
-        {
-            
-            IWebDriver driver = new ChromeDriver();
-            driver.Navigate().GoToUrl("https://savepice.ru");
-            Thread.Sleep(3000);
+        {                  
             RestClient client = new RestClient("https://savepice.ru");
+            
             var reqToUpload = new RestRequest(Method.POST);
+            
             reqToUpload.AddFile("", "/testPIC/igosha.jpg");
+            
             IRestResponse response = client.Execute(reqToUpload);
 
             Assert.Equal("OK", response.StatusCode.ToString());
@@ -67,7 +66,7 @@ namespace TestProject1
                    
             driver.Navigate().GoToUrl("https://www.coursera.org/");
 
-            
+            //send cookies back
             var header2 = new Dictionary<string, string>
             {
                 {"CSRF3-Token","1644157800.FABNLqqrXJZp7w6u" },
